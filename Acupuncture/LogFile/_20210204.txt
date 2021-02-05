@@ -1,0 +1,39 @@
+----------------------------------------------------------------------
+Timestamp - 02/04/2021 20:29:23 -05:00 | Level - Error |
+----------------------------------------------------------------------
+SourceContext : "Microsoft.AspNetCore.SpaServices"
+Application : "Acupuncture"
+MachineName : "Jianqins-MacBook-Air"
+CurrentManagedThreadId : 1
+OSVersion : "Unix 18.7.0.0"
+Version : "3.1.10"
+UserName : "wjqcau"
+ProcessId : 1454
+ProcessName : "dotnet"
+---------------------------------------------------------------------------
+----------------------------------------------------------------------
+Timestamp - 02/04/2021 20:31:39 -05:00 | Level - Error |
+----------------------------------------------------------------------
+SourceContext : "Microsoft.AspNetCore.SpaServices"
+Application : "Acupuncture"
+MachineName : "Jianqins-MacBook-Air"
+CurrentManagedThreadId : 1
+OSVersion : "Unix 18.7.0.0"
+Version : "3.1.10"
+UserName : "wjqcau"
+ProcessId : 1491
+ProcessName : "dotnet"
+---------------------------------------------------------------------------
+----------------------------------------------------------------------
+Timestamp - 02/04/2021 20:31:49 -05:00 | Level - Error |
+----------------------------------------------------------------------
+SourceContext : "Microsoft.AspNetCore.SpaServices"
+Application : "Acupuncture"
+MachineName : "Jianqins-MacBook-Air"
+CurrentManagedThreadId : 1
+OSVersion : "Unix 18.7.0.0"
+Version : "3.1.10"
+UserName : "wjqcau"
+ProcessId : 1491
+ProcessName : "dotnet"
+---------------------------------------------------------------------------
