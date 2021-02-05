@@ -21,17 +21,17 @@ namespace Acupuncture
             var host = CreateHostBuilder(args).Build();
             using (var scope=host.Services.CreateScope())
             {
-                try
-                {
-                    int a = 0;
-                    int b = 3;
-                    int z = b / a;
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
-                         ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-                }
+                //try
+                //{
+                //    int a = 0;
+                //    int b = 3;
+                //    int z = b / a;
+                //}
+                //catch (Exception ex)
+                //{
+                //    Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                //         ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+                //}
 
 
             }
