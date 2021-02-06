@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Acupuncture.CommonFunction;
+using Acupuncture.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,18 +22,22 @@ namespace Acupuncture
             var host = CreateHostBuilder(args).Build();
             using (var scope=host.Services.CreateScope())
             {
-                //try
-                //{
-                //    int a = 0;
-                //    int b = 3;
-                //    int z = b / a;
-                //}
-                //catch (Exception ex)
-                //{
-                //    Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
-                //         ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-                //}
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var dpContext = services.GetRequiredService<DataProtectionContext>();
+                    var commonService = services.GetRequiredService<ICommonFunction>();
+                    DataInitializer.Initializer(context, dpContext, commonService).Wait();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
+                   ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+                }
+                
 
+                
 
             }
 
@@ -55,8 +60,9 @@ namespace Acupuncture
                       .Enrich.WithProperty("ProcessId", Process.GetCurrentProcess().Id)
                       .Enrich.WithProperty("ProcessName", Process.GetCurrentProcess().ProcessName)
                       //.WriteTo.Console(theme: CustomConsoleTheme.VisualStudioMacLight)
-                      .WriteTo.File(formatter: new LogFormat(), path: Path.Combine(webHostBuilderContext.HostingEnvironment.ContentRootPath + $"{Path.DirectorySeparatorChar}LogFile{Path.DirectorySeparatorChar}", $"_{DateTime.Now:yyyyMMdd}.txt"))
-                     .ReadFrom.Configuration(webHostBuilderContext.Configuration));
+                     // .WriteTo.File(formatter: new LogFormat(), path: Path.Combine(webHostBuilderContext.HostingEnvironment.ContentRootPath + $"{Path.DirectorySeparatorChar}LogFile{Path.DirectorySeparatorChar}", $"_{DateTime.Now:yyyyMMdd}.txt"))
+                     //.ReadFrom.Configuration(webHostBuilderContext.Configuration)
+                     );
 
                         webBuilder.UseStartup<Startup>();
                     
