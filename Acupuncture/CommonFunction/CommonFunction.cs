@@ -14,18 +14,20 @@ namespace Acupuncture.CommonFunction
         private readonly AdminUserOptions _adminUserOptions;
         private readonly AppUserOptions _appUserOptions;
         private readonly UserManager<ApplicationUser> _UserManager;
-        private readonly IHostingEnvironment _hostEnv;
-
         
+       // private readonly IHostingEnvironment _hostEnv;
+
+
         //dependency injection to pupulate the object
+        [Obsolete]
         public ComFunction(IOptions<AdminUserOptions> adminOptions,
             IOptions<AppUserOptions >appOptions,
-            UserManager<ApplicationUser> userManager,IHostingEnvironment env)
+            UserManager<ApplicationUser> userManager)
         {
             _adminUserOptions = adminOptions.Value;
             _appUserOptions = appOptions.Value;
             _UserManager = userManager;
-            _hostEnv = env;
+           // _hostEnv = env;
         }
         public async Task CreateAdminUser()
         {
