@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 using Acupuncture.CommonFunction;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Serilog;
 
 namespace Acupuncture.Data
 {
@@ -14,8 +18,18 @@ namespace Acupuncture.Data
             DataProtectionContext dpContext,
             ICommonFunction icommonFunction)
         {
-            await context.Database.EnsureCreatedAsync();
-            await dpContext.Database.EnsureCreatedAsync();
+            //check whether database exists
+            if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+            {
+                await context.Database.EnsureCreatedAsync();
+            }
+            if (!(dpContext.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+            {
+                await dpContext.Database.EnsureCreatedAsync();
+
+            }
+
+            //await  dpContext.Database.MigrateAsync();
 
             if (context.appUsers.Any())
             { return; }
