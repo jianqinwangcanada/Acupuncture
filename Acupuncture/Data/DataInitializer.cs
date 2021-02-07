@@ -18,19 +18,7 @@ namespace Acupuncture.Data
             DataProtectionContext dpContext,
             ICommonFunction icommonFunction)
         {
-
-            //if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists()) {
-            //}else
-            //try
-            //{
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
-            //      ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-            //}
-            // await context.Database.MigrateAsync();
+            //check whether database exists
             if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
             {
                 await context.Database.EnsureCreatedAsync();
@@ -40,9 +28,6 @@ namespace Acupuncture.Data
                 await dpContext.Database.EnsureCreatedAsync();
 
             }
-
-
-
 
             //await  dpContext.Database.MigrateAsync();
 
