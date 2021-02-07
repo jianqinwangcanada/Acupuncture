@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 using Acupuncture.CommonFunction;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Serilog;
 
 namespace Acupuncture.Data
 {
@@ -14,8 +18,33 @@ namespace Acupuncture.Data
             DataProtectionContext dpContext,
             ICommonFunction icommonFunction)
         {
-            await context.Database.EnsureCreatedAsync();
-            await dpContext.Database.EnsureCreatedAsync();
+
+            //if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists()) {
+            //}else
+            //try
+            //{
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
+            //      ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            //}
+            // await context.Database.MigrateAsync();
+            if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+            {
+                await context.Database.EnsureCreatedAsync();
+            }
+            if (!(dpContext.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+            {
+                await dpContext.Database.EnsureCreatedAsync();
+
+            }
+
+
+
+
+            //await  dpContext.Database.MigrateAsync();
 
             if (context.appUsers.Any())
             { return; }
