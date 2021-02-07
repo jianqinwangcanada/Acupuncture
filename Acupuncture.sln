@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.808.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acupuncture", "Acupuncture\Acupuncture.csproj", "{A235927B-8329-4935-A1A7-9DC0947DEE96}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Acupuncture", "Acupuncture\Acupuncture.csproj", "{5CF741AA-1501-4A02-9EE7-9290DEB4D0EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A235927B-8329-4935-A1A7-9DC0947DEE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A235927B-8329-4935-A1A7-9DC0947DEE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A235927B-8329-4935-A1A7-9DC0947DEE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A235927B-8329-4935-A1A7-9DC0947DEE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF741AA-1501-4A02-9EE7-9290DEB4D0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF741AA-1501-4A02-9EE7-9290DEB4D0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF741AA-1501-4A02-9EE7-9290DEB4D0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF741AA-1501-4A02-9EE7-9290DEB4D0EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
