@@ -28,6 +28,13 @@ namespace Acupuncture
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var dpContext = services.GetRequiredService<DataProtectionContext>();
                     var commonService = services.GetRequiredService<ICommonFunction>();
+                    Console.WriteLine("+++++++++++++++++++++++++++++error point++++++++++++");
+                    Console.WriteLine(context.Model.ToString());
+                    Console.WriteLine("+++++++++++++++++++++++++++++error point++++++++++++");
+
+                    Console.WriteLine(dpContext.Model.ToString());
+                    Console.WriteLine(commonService.ToString());
+
                     DataInitializer.Initializer(context, dpContext, commonService).Wait();
                 }
                 catch (Exception ex)
@@ -59,9 +66,9 @@ namespace Acupuncture
                       .Enrich.WithProperty("UserName", Environment.UserName)
                       .Enrich.WithProperty("ProcessId", Process.GetCurrentProcess().Id)
                       .Enrich.WithProperty("ProcessName", Process.GetCurrentProcess().ProcessName)
-                      //.WriteTo.Console(theme: CustomConsoleTheme.VisualStudioMacLight)
+                      .WriteTo.Console(theme: CustomerConsoleTheme.VisualStudioMacLight)
                      // .WriteTo.File(formatter: new LogFormat(), path: Path.Combine(webHostBuilderContext.HostingEnvironment.ContentRootPath + $"{Path.DirectorySeparatorChar}LogFile{Path.DirectorySeparatorChar}", $"_{DateTime.Now:yyyyMMdd}.txt"))
-                     //.ReadFrom.Configuration(webHostBuilderContext.Configuration)
+                     .ReadFrom.Configuration(webHostBuilderContext.Configuration)
                      );
 
                         webBuilder.UseStartup<Startup>();

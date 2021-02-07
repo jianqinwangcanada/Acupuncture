@@ -9,7 +9,7 @@ using Serilog;
 
 namespace Acupuncture.CommonFunction
 {
-    public class ComFunction
+    public class ComFunction:ICommonFunction
     {
         private readonly AdminUserOptions _adminUserOptions;
         private readonly AppUserOptions _appUserOptions;
@@ -19,7 +19,7 @@ namespace Acupuncture.CommonFunction
 
 
         //dependency injection to pupulate the object
-        [Obsolete]
+        
         public ComFunction(IOptions<AdminUserOptions> adminOptions,
             IOptions<AppUserOptions >appOptions,
             UserManager<ApplicationUser> userManager)
@@ -31,6 +31,7 @@ namespace Acupuncture.CommonFunction
         }
         public async Task CreateAdminUser()
         {
+            Console.WriteLine("----Call the create user method---fuck");
             try
             {
                 var adminUser = new ApplicationUser
@@ -50,7 +51,11 @@ namespace Acupuncture.CommonFunction
                     new Address{Country=_adminUserOptions.Country,Type="shipping"},
                     new Address{Country=_adminUserOptions.Country,Type="billing"}
                 }
+
+                
                 };
+                Console.WriteLine("----adminUser-----------");
+                Console.WriteLine(adminUser.Firstname + ":" + adminUser.UserAddresses.ToString());
                 var result = await _UserManager.CreateAsync(adminUser, _adminUserOptions.Password);
                 if (result.Succeeded)
                 {
@@ -95,7 +100,8 @@ namespace Acupuncture.CommonFunction
                         new Address {Country = _appUserOptions.Country, Type = "Shipping"}
                     }
                 };
-
+                Console.WriteLine("----adminUser-----------");
+                Console.WriteLine(appUser.Firstname + ":" + appUser.UserAddresses.ToString());
                 var result = await _UserManager.CreateAsync(appUser, _appUserOptions.Password);
 
                 if (result.Succeeded)

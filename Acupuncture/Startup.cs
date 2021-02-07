@@ -28,11 +28,11 @@ namespace Acupuncture
         {
             //-------------------DbContext Injection-------------
             services.AddDbContext<ApplicationDbContext>(options => 
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("Acupuncture")));
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("Acupuncture")));
             services.AddDbContext<DataProtectionContext>(options=>
-            options.UseMySql(Configuration.GetConnectionString("DataProtectionKeysContext"),x=>x.MigrationsAssembly("Acupuncture")));
+            options.UseMySQL(Configuration.GetConnectionString("DataProtectionKeysContext"),x=>x.MigrationsAssembly("Acupuncture")));
             //=========================Register CommonManagFunction=======================
-            //services.AddTransient<ICommonFunction, ComFunction>();
+            services.AddTransient<ICommonFunction, ComFunction>();
             //----------------Populate the the the default users from setting======
             services.Configure<AdminUserOptions>(Configuration.GetSection("AdminUserOptions"));
             services.Configure<AppUserOptions>(Configuration.GetSection("AppUserOptions"));

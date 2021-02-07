@@ -20,7 +20,7 @@ namespace Acupuncture.Data
             );
               
         }
-        public  DbSet<ApplicationUser> appUsers;
-       public DbSet<Address> addresses;
+        public DbSet<ApplicationUser> appUsers { get; set; }
+       public DbSet<Address> addresses { get; set; }
     }
 }
