@@ -1,0 +1,17 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/lib/customer/css/admin/all.min.css",
+    "inputFiles": [
+      "wwwroot/lib/customer/css/admin/all.css"
+    ],
+    "sourceMap": false
+  },
+  {
+
+    "outputFileName": "wwwroot/lib/customer/css/admin/login.min.css",
+    "inputFiles": [
+      "wwwroot/lib/customer/css/admin/login.css"
+    ],
+    "sourceMap": false
+  }
+]
