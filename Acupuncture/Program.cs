@@ -28,13 +28,6 @@ namespace Acupuncture
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var dpContext = services.GetRequiredService<DataProtectionContext>();
                     var commonService = services.GetRequiredService<ICommonFunction>();
-                    Console.WriteLine("+++++++++++++++++++++++++++++error point++++++++++++");
-                    Console.WriteLine(context.Model.ToString());
-                    Console.WriteLine("+++++++++++++++++++++++++++++error point++++++++++++");
-
-                    Console.WriteLine(dpContext.Model.ToString());
-                    Console.WriteLine(commonService.ToString());
-
                     DataInitializer.Initializer(context, dpContext, commonService).Wait();
                 }
                 catch (Exception ex)
@@ -44,7 +37,6 @@ namespace Acupuncture
                 }
                 
 
-                
 
             }
 
