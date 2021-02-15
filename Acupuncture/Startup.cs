@@ -95,7 +95,7 @@ namespace Acupuncture
             }
 
             app.UseRouting();
-
+            app.UseAuthorization();
            
             app.UseEndpoints(endpoints =>
             {
