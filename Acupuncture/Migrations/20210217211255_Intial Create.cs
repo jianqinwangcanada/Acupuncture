@@ -4,10 +4,30 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Acupuncture.Migrations
 {
-    public partial class InitalDbContext : Migration
+    public partial class IntialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "activities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(nullable: true),
+                    IpAddress = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true),
+                    OperatingSystem = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Color = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_activities", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -84,7 +104,7 @@ namespace Acupuncture.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "addresses",
                 columns: table => new
                 {
                     AddressId = table.Column<int>(nullable: false)
@@ -101,9 +121,9 @@ namespace Acupuncture.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.AddressId);
+                    table.PrimaryKey("PK_addresses", x => x.AddressId);
                     table.ForeignKey(
-                        name: "FK_Address_AspNetUsers_UserId",
+                        name: "FK_addresses_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -195,6 +215,32 @@ namespace Acupuncture.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "tokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ClientId = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: false),
+                    ExpiryTime = table.Column<DateTime>(nullable: false),
+                    EncryptionKeyRt = table.Column<string>(nullable: false),
+                    EncryptionKeyJwt = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -206,8 +252,8 @@ namespace Acupuncture.Migrations
                 values: new object[] { "2", null, "Customer", "CUSTOMER" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_UserId",
-                table: "Address",
+                name: "IX_addresses_UserId",
+                table: "addresses",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -246,12 +292,20 @@ namespace Acupuncture.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tokens_UserId",
+                table: "tokens",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "activities");
+
+            migrationBuilder.DropTable(
+                name: "addresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -267,6 +321,9 @@ namespace Acupuncture.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "tokens");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

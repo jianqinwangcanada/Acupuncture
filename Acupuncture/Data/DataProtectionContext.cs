@@ -1,4 +1,5 @@
 ﻿using System;
+using Acupuncture.Model;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
