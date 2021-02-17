@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Acupuncture.Migrations
 {
-    public partial class InitialDbcontext : Migration
+    public partial class IntialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
