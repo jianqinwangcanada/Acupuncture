@@ -40,6 +40,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +70,8 @@
     <Folder Include="wwwroot\image\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="CommonFunction\AuthFunction\" />
+    <Folder Include="CommonFunction\CookieFunction\" />
+    <Folder Include="CommonFunction\ActivityFunction\" />
   </ItemGroup>
   <ItemGroup>
 
