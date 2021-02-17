@@ -1,9 +1,16 @@
 using System;
+using System.Text;
 using Acupuncture.CommonFunction;
+using Acupuncture.CommonFunction.ActivityFunction;
+using Acupuncture.CommonFunction.AuthFunction;
+using Acupuncture.CommonFunction.CookieFunction;
 using Acupuncture.Data;
 using Acupuncture.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Acupuncture
 {
@@ -65,6 +73,61 @@ namespace Acupuncture
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddMvc().AddControllersAsServices().AddRazorRuntimeCompilation().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            //=================================================================================
+            //                        DataProtection
+            //==================================================================================
+
+            var dataprotectionSection = Configuration.GetSection("DataProtectionKeys");
+            services.Configure<DataProtectionKeys>(dataprotectionSection);
+            services.AddDataProtection().PersistKeysToDbContext<DataProtectionContext>();
+
+
+            //=======================================Appseeting Options===========================
+            var appSettingSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+
+            //=================================================================================
+            //                        Jwt Authentication
+            //==================================================================================
+            var appSettings = appSettingSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication(o => {
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = appSettings.ValidateIssuerSigningKey,
+                    ValidateIssuer = appSettings.ValidateIssuer,
+                    ValidateAudience = appSettings.ValidateAudience,
+                    ValidIssuer = appSettings.Site,
+                    ValidAudience = appSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ClockSkew = TimeSpan.Zero
+
+                };
+            });
+
+
+            //+++++++++++++++++++++++++++++++Activity Service++++++++++++++++++++++++++++++++++++++++
+            services.AddTransient<IActivitySvc, ActivitySvc>();
+
+            //+++++++++++++++++++++++++++++++Add Auth Service++++++++++++++++++++++++++++++++++++++++
+            services.AddTransient<IAuthenticateSvc, AuthenticateSvc>();
+
+            //-------------------------------Add cookie fucntion service ---------------------
+            services.AddHttpContextAccessor();
+            services.AddTransient<CookieOptions>();
+            services.AddTransient<ICookieSvc, CookieSvc>();
+
+            //++++++++++++++++Authentication Service-----------------------------------------------------
+
+            services.AddAuthentication("Administrator_DefaultSchema").AddScheme<AdminAuthenticationOptions, AdminAuthenticationHandler>("Admin", null);
+
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -95,6 +158,7 @@ namespace Acupuncture
             }
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
            
             app.UseEndpoints(endpoints =>

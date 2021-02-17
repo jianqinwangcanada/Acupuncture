@@ -17,6 +17,41 @@ namespace Acupuncture.Migrations
                 .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Acupuncture.Model.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OperatingSystem")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("activities");
+                });
+
             modelBuilder.Entity("Acupuncture.Model.Address", b =>
                 {
                     b.Property<int>("AddressId")
@@ -55,7 +90,7 @@ namespace Acupuncture.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Address");
+                    b.ToTable("addresses");
                 });
 
             modelBuilder.Entity("Acupuncture.Model.ApplicationUser", b =>
@@ -165,6 +200,48 @@ namespace Acupuncture.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("EncryptionKeyJwt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EncryptionKeyRt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ExpiryTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -314,6 +391,15 @@ namespace Acupuncture.Migrations
                     b.HasOne("Acupuncture.Model.ApplicationUser", "User")
                         .WithMany("UserAddresses")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.Token", b =>
+                {
+                    b.HasOne("Acupuncture.Model.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

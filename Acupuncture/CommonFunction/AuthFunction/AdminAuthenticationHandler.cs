@@ -44,7 +44,7 @@ namespace Acupuncture.CommonFunction.AuthFunction
             _dataProtectionKeys = dataProtectionKeys.Value;
             _appSettings = appSettings.Value;
             _provider = provider;
-            _appSettings = appSettings.Value;
+            _identityDefaultOptions = identityDefaultOptions.Value;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
