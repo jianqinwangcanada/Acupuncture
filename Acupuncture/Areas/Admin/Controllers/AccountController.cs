@@ -13,7 +13,6 @@ using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.DataProtection;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Acupuncture.Areas.Admin.Controllers
 {   [Area("Admin")]
@@ -40,21 +39,33 @@ namespace Acupuncture.Areas.Admin.Controllers
 
         }
 
-
-
-
-
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl=null)
         {
-            return View();
+            await Task.Delay(0);
+            ViewData["ReturnUrl"] = returnUrl;
+
+            try
+            {
+                if (!Request.Cookies.ContainsKey(AccessToken) || !Request.Cookies.ContainsKey(User_Id)) {
+                    return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while check whether user has token in Login get method {Error} {StackTrace} {InnerException} {Source}",
+                                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
+            //If user already login in so we redirect to home controller
+            return RedirectToAction("Index","Home");
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model,string redirectURL=null)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model,string returnUrl=null)
         {
-            ViewData["ReturnUrl"] = redirectURL;
+            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 try
@@ -63,7 +74,7 @@ namespace Acupuncture.Areas.Admin.Controllers
                     const int expireTime = 60;
                     _cookieSvc.SetCookie(AccessToken, jwtTokenResponse.Token, expireTime);
                     _cookieSvc.SetCookie(User_Id, jwtTokenResponse.UserId, expireTime);
-                    _cookieSvc.SetCookie("User_Name", jwtTokenResponse.Username, expireTime);
+                    _cookieSvc.SetCookie("username", jwtTokenResponse.Username, expireTime);
                     Log.Information($"User {model.Email} :Login success");
                     return Ok("success");
 
@@ -117,10 +128,11 @@ namespace Acupuncture.Areas.Admin.Controllers
 
 
 
-        public ActionResult AccessDenied()
+        public IActionResult AccessDenied()
         {
             return View();
         }
+
 
     }
 

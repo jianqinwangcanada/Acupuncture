@@ -35,9 +35,7 @@ namespace Acupuncture
                     Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
                 }
-                
-
-
+      
             }
 
 
