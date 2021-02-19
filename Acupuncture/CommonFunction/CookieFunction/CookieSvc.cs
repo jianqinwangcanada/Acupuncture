@@ -60,62 +60,62 @@ namespace Acupuncture.CommonFunction.CookieFunction
             }
         }
 
-        //public string GetUserIP()
-        //{
-        //    string userIp = "unknown";
+        public string GetUserIP()
+        {
+            string userIp = "unknown";
 
-        //    try
-        //    {
-        //        userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
-        //            ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-        //    }
+            try
+            {
+                userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
 
-        //    return userIp;
-        //}
+            return userIp;
+        }
 
-        //public string GetUserCountry()
-        //{
-        //    try
-        //    {
-        //        string userIp = GetUserIP();
-        //        string info = new WebClient().DownloadString("http://ipinfo.io/" + userIp);
-        //        var ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-        //        RegionInfo regionalInfo = new RegionInfo(ipInfo.Country);
-        //        ipInfo.Country = regionalInfo.EnglishName;
+        public string GetUserCountry()
+        {
+            try
+            {
+                string userIp = GetUserIP();
+                string info = new WebClient().DownloadString("http://ipinfo.io/" + userIp);
+                var ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+                RegionInfo regionalInfo = new RegionInfo(ipInfo.Country);
+                ipInfo.Country = regionalInfo.EnglishName;
 
-        //        if (!string.IsNullOrEmpty(userIp))
-        //        {
-        //            return ipInfo.Country;
-        //        }
+                if (!string.IsNullOrEmpty(userIp))
+                {
+                    return ipInfo.Country;
+                }
 
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
-        //            ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-        //    }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
 
-        //    return "unknown";
-        //}
+            return "unknown";
+        }
 
-        //public string GetUserOS()
-        //{
-        //    string userOs = "unknown";
-        //    try
-        //    {
-        //        userOs = _httpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
-        //            ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
-        //    }
-        //    return userOs;
-        //}
+        public string GetUserOS()
+        {
+            string userOs = "unknown";
+            try
+            {
+                userOs = _httpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
+            return userOs;
+        }
     }
 }
