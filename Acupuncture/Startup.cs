@@ -125,7 +125,7 @@ namespace Acupuncture
 
             //++++++++++++++++Authentication Service-----------------------------------------------------
 
-            services.AddAuthentication("Administrator_DefaultSchema").AddScheme<AdminAuthenticationOptions, AdminAuthenticationHandler>("Admin", null);
+            services.AddAuthentication("Administrator").AddScheme<AdminAuthenticationOptions, AdminAuthenticationHandler>("Admin", null);
 
 
             services.AddControllersWithViews();
