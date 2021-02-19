@@ -98,15 +98,6 @@ namespace Acupuncture.CommonFunction.AuthFunction
         }
 
 
-
-
-
-
-
-
-
-
-
         private async Task<TokenResponse> GenerateNewToken(ApplicationUser user, LoginViewModel model)
         {
             // Create a key to encrypt the JWT 
