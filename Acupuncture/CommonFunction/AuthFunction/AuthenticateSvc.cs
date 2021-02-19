@@ -54,34 +54,59 @@ namespace Acupuncture.CommonFunction.AuthFunction
 
         }
         public async Task<TokenResponse> Auth(LoginViewModel model) {
+            Activity userActivity = new Activity();
+            userActivity.IpAddress = _cookieSvc.GetUserIP();
+            userActivity.Date = DateTime.UtcNow;
+            userActivity.Location = _cookieSvc.GetUserCountry();
+            userActivity.OperatingSystem = _cookieSvc.GetUserOS();
+            
 
             try 
             {
                 var user =await _userManager.FindByEmailAsync(model.Email);
                 if (user == null) return CreateErrorResponseToken("Request not supported", HttpStatusCode.Unauthorized);
                 var roles = await _userManager.GetRolesAsync(user);
+                //Continue to complete the activity
+                userActivity.UserId = user.Id;
+
                 if (roles.FirstOrDefault() != "Administrator")
                 {
+                    userActivity.Type = "Unauthorized Login-User is not Admin";
+                    userActivity.Icon = "fas fa-user-secret";
+                    userActivity.Color = "danger";
+                    await _activitySvc.AddUserActivity(userActivity);
                     Log.Error("role is not administrator");
                     return CreateErrorResponseToken("role is not admin", HttpStatusCode.Unauthorized);
                 }
                 //check password
                 if (!await _userManager.CheckPasswordAsync(user, model.Password)) {
-
+                    userActivity.Type = " Login attempt failed--password incorrect";
+                    userActivity.Icon = "fas fa-user-circle";
+                    userActivity.Color = "danger";
+                    await _activitySvc.AddUserActivity(userActivity);
                     Log.Error("incorrect password");
                     return CreateErrorResponseToken("password is incorrect", HttpStatusCode.Unauthorized);
                 }
 
                 if(!await _userManager.IsEmailConfirmedAsync(user))
                 {
+                    userActivity.Type = "Login Attempt success- email was not confirmed";
+                    userActivity.Icon = "fas fa-user-envelope";
+                    userActivity.Color = "warning";
+                    await _activitySvc.AddUserActivity(userActivity);
                     Log.Error("Email is not confirmed");
                     return CreateErrorResponseToken("Email not confirmed", HttpStatusCode.Unauthorized);
 
                 }
 
-
-
                 var authToken =await GenerateNewToken(user, model);
+                userActivity.Type = "Login successfully";
+                userActivity.Icon = "fas fa-thumbs-up";
+                userActivity.Color = "success";
+                await _activitySvc.AddUserActivity(userActivity);
+
+
+
                 return authToken;
 
             }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Net;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Acupuncture.CommonFunction.CookieFunction
@@ -70,7 +73,7 @@ namespace Acupuncture.CommonFunction.CookieFunction
             }
             catch (Exception ex)
             {
-                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                Log.Error("An error occurred while Get user ip  {Error} {StackTrace} {InnerException} {Source}",
                     ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
             }
 
@@ -96,7 +99,7 @@ namespace Acupuncture.CommonFunction.CookieFunction
             }
             catch (Exception ex)
             {
-                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                Log.Error("An error occurred while get user 's country  {Error} {StackTrace} {InnerException} {Source}",
                     ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
             }
 
