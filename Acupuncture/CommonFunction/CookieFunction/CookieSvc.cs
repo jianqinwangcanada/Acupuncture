@@ -69,7 +69,8 @@ namespace Acupuncture.CommonFunction.CookieFunction
 
             try
             {
-                userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                //userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                userIp = "135.0.97.2";
             }
             catch (Exception ex)
             {
@@ -84,6 +85,7 @@ namespace Acupuncture.CommonFunction.CookieFunction
         {
             try
             {
+                /*  https://geo.ipify.org/api/v1?apiKey=at_qaiO7gMLKiz1OdkjEuVhKObZYRgYe&ipAddress= */
                 string userIp = GetUserIP();
                 string info = new WebClient().DownloadString("http://ipinfo.io/" + userIp);
                 var ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
