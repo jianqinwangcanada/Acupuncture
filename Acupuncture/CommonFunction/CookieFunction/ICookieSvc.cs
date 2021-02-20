@@ -17,7 +17,11 @@ namespace Acupuncture.CommonFunction.CookieFunction
         public void DeleteCookie(string key);
 
         public void DeleteAllCookies(IEnumerable<string> cookiesToDelete);
-        
+        public string GetUserOS();
+        public string GetUserIP();
+        public string GetUserCountry();
+
+
 
     }
 }
