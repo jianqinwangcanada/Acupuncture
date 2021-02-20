@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Net;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Acupuncture.CommonFunction.CookieFunction
@@ -66,11 +69,12 @@ namespace Acupuncture.CommonFunction.CookieFunction
 
             try
             {
-                userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                //userIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                userIp = "135.0.97.2";
             }
             catch (Exception ex)
             {
-                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                Log.Error("An error occurred while Get user ip  {Error} {StackTrace} {InnerException} {Source}",
                     ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
             }
 
@@ -81,6 +85,7 @@ namespace Acupuncture.CommonFunction.CookieFunction
         {
             try
             {
+                /*  https://geo.ipify.org/api/v1?apiKey=at_qaiO7gMLKiz1OdkjEuVhKObZYRgYe&ipAddress= */
                 string userIp = GetUserIP();
                 string info = new WebClient().DownloadString("http://ipinfo.io/" + userIp);
                 var ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
@@ -96,7 +101,7 @@ namespace Acupuncture.CommonFunction.CookieFunction
             }
             catch (Exception ex)
             {
-                Log.Error("An error occurred while seeding the database  {Error} {StackTrace} {InnerException} {Source}",
+                Log.Error("An error occurred while get user 's country  {Error} {StackTrace} {InnerException} {Source}",
                     ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
             }
 
