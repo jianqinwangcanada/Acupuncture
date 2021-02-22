@@ -4,6 +4,8 @@ using Acupuncture.CommonFunction;
 using Acupuncture.CommonFunction.ActivityFunction;
 using Acupuncture.CommonFunction.AuthFunction;
 using Acupuncture.CommonFunction.CookieFunction;
+using Acupuncture.CommonFunction.CountryFunction;
+using Acupuncture.CommonFunction.UserSvc;
 using Acupuncture.Data;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -111,6 +113,11 @@ namespace Acupuncture
                 };
             });
 
+            //+++++++++++++++++++++++++++++++Country Service++++++++++++++++++++++++++++++++++++++++
+            services.AddTransient<IUserSvc, UserSvc>();
+
+            //+++++++++++++++++++++++++++++++Country Service++++++++++++++++++++++++++++++++++++++++
+            services.AddTransient<ICountrySvc, CountrySvc>();
 
             //+++++++++++++++++++++++++++++++Activity Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<IActivitySvc, ActivitySvc>();
@@ -124,8 +131,30 @@ namespace Acupuncture
             services.AddTransient<ICookieSvc, CookieSvc>();
 
             //++++++++++++++++Authentication Service-----------------------------------------------------
-
+            //                   Authentication Service
+            //------------------------------------------------------------------------------------
             services.AddAuthentication("Administrator").AddScheme<AdminAuthenticationOptions, AdminAuthenticationHandler>("Admin", null);
+            services.AddCors(options=> {
+                options.AddPolicy("EnableCORS",buider=> {
+                    buider.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                });
+
+            });
+
+            //++++++++++++++++-----------------------------------------------------------------------
+            //                   Enable APi Version
+            //------------------------------------------------------------------------------------
+
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+
+
+            });
+
+
 
 
             services.AddControllersWithViews();
@@ -151,6 +180,7 @@ namespace Acupuncture
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("EnableCORS");
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {

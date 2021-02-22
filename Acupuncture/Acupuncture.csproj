@@ -41,6 +41,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,7 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <Content Remove="wwwroot\image\logo.png" />
+    <Content Remove="Areas\Admin\Views\Profile\Activity.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +74,11 @@
     <Folder Include="CommonFunction\AuthFunction\" />
     <Folder Include="CommonFunction\CookieFunction\" />
     <Folder Include="CommonFunction\ActivityFunction\" />
+    <Folder Include="CommonFunction\UserSvc\" />
+    <Folder Include="wwwroot\lib\customer\js\account\" />
+    <Folder Include="CommonFunction\CountryFunction\" />
+    <Folder Include="Controllers\Api\" />
+    <Folder Include="Controllers\Api\v1\" />
   </ItemGroup>
   <ItemGroup>
 
@@ -103,6 +110,9 @@
     <None Include="ClientApp\src\environments\environment.prod.ts" />
     <None Include="ClientApp\src\environments\environment.ts" />
     <None Include="wwwroot\image\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CommonFunction\AuthFunction\UserSvc\UserSvc.cs" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

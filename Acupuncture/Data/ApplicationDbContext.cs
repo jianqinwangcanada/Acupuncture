@@ -24,5 +24,6 @@ namespace Acupuncture.Data
         public DbSet<Address> addresses { get; set; }
         public DbSet<Token> tokens { get; set; }
         public DbSet<Activity> activities { get; set; }
+        public DbSet<CountryModel> countries { get; set; }
     }
 }
