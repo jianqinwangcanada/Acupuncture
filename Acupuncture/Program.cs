@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Acupuncture.CommonFunction;
+using Acupuncture.CommonFunction.CountryFunction;
 using Acupuncture.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,8 @@ namespace Acupuncture
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var dpContext = services.GetRequiredService<DataProtectionContext>();
                     var commonService = services.GetRequiredService<ICommonFunction>();
-                    DataInitializer.Initializer(context, dpContext, commonService).Wait();
+                    var countrySvc = services.GetRequiredService<ICountrySvc>();
+                    DataInitializer.Initializer(context, dpContext, commonService,countrySvc).Wait();
                 }
                 catch (Exception ex)
                 {

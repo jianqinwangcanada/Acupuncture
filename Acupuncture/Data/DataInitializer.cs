@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Acupuncture.CommonFunction;
+using Acupuncture.CommonFunction.CountryFunction;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace Acupuncture.Data
       
         public static async Task Initializer(ApplicationDbContext context,
             DataProtectionContext dpContext,
-            ICommonFunction icommonFunction)
+            ICommonFunction icommonFunction,ICountrySvc _countrySvc)
         {
             //check whether database exists
             if (!(context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
@@ -37,6 +38,13 @@ namespace Acupuncture.Data
 
             await icommonFunction.CreateAdminUser();
             await icommonFunction.CreateAppUser();
+            //Initialize the coutry datatbase table
+            var countries = await _countrySvc.GetCountries();
+            if (countries.Count > 0)
+            {
+                await context.countries.AddRangeAsync(countries);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
