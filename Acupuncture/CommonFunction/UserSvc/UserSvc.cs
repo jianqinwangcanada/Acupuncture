@@ -109,11 +109,11 @@ namespace Acupuncture.CommonFunction.UserSvc
             }
             return profileModel;
         }
-
+        
         public async Task<ProfileModel> GetUserProfileByUsernameAsync(string username)
         {
+            
             var userProfile = new ProfileModel();
-
             try
             {
                 var loggedInUserId = GetLoggedInUserId();
@@ -279,12 +279,13 @@ namespace Acupuncture.CommonFunction.UserSvc
                 user.UserName != formData["username"].ToString() ||
                 user.Email != formData["email"].ToString())
                 return false;
-
+            
             try
             {
                 Activity activityModel = new Activity { UserId = user.Id };
                 await UpdateProfilePicAsync(formData, user);
-
+                
+                   
                 user.Firstname = formData["firstname"];
                 user.Birthday = formData["birthdate"];
                 user.Lastname = formData["lastname"];

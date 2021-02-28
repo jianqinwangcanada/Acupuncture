@@ -1,52 +1,30 @@
-﻿@model Model.AdminBaseViewModel
+﻿@*@model Model.AdminBaseViewModel*@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>@Model.SiteWideSetting.WebsiteName | @ViewBag.Title</title>
-    <meta name="description" content="@Model.SiteWideSetting.WebsiteDescription" />
-    <meta name="author" content="@Model.SiteWideSetting.WebsiteAuthor" />
-    <!-- Favicon icon -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>User Profile</title>
+    <meta name="keywords" content="Acupuncture, Traditional Chinese Medicine,Windsor Ontario, Canada,Famous Doctor">
     <link href="~/favicon.ico" rel="icon" />
+    <meta name="author" content="Jianqin Wang" />
     @await Html.PartialAsync("_HeaderStylesPartial")
     @RenderSection("Styles", required: false)
 </head>
-<body>
-
-    <!-- ============================================================== -->
-    <!-- Main wrapper -->
-    <!-- ============================================================== -->
-    <div class="wrapper">
+<body id="page-top">
+    <div id="wrapper">
         @await Html.PartialAsync("_SideBarLayout")
-        <div id="content">
-            @await Html.PartialAsync("_TopBarLayout")
-            @RenderBody()
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                @await Html.PartialAsync("_TopBarLayout")
+                @RenderBody()
+            </div>
+            @await Html.PartialAsync("_FooterLayout")
         </div>
-
-
-        @await Html.PartialAsync("_FooterBarLayout")
     </div>
 
-
-    <environment include="Development">
-        <script src="~/lib/jquery/jquery.min.js"></script>
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="~/lib/popper.js/umd/popper.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="~/lib/custom/js/admin/admin.js"></script>
-        <!-- Custom JS -->
-    </environment>
-    <environment exclude="Development">
-        <script src="~/lib/jquery/jquery.min.js"></script>
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="~/lib/popper.js/umd/popper.min.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-        <!-- Custom JS -->
-    </environment>
-
+    @await Html.PartialAsync("_ScrollAndModal")
+    @await Html.PartialAsync("_ScriptsPartial")
     @RenderSection("Scripts", required: false)
 </body>
-
 </html>

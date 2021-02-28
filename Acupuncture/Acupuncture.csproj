@@ -42,6 +42,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -79,6 +82,11 @@
     <Folder Include="CommonFunction\CountryFunction\" />
     <Folder Include="Controllers\Api\" />
     <Folder Include="Controllers\Api\v1\" />
+    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="wwwroot\uploads\user\" />
+    <Folder Include="wwwroot\uploads\user\profile\" />
+    <Folder Include="wwwroot\uploads\user\profile\default\" />
+    <Folder Include="CommonFunction\WritebleAppSettingFunction\" />
   </ItemGroup>
   <ItemGroup>
 

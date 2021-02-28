@@ -225,8 +225,7 @@ function UpdateUser(data) {
         title: 'Enter your password',
         input: 'password',
         inputAttributes: {
-            autoc
-            talize: 'off'
+            autocapitalize: 'off'
         },
         showCancelButton: true,
         confirmButtonText: 'Update Profile',
