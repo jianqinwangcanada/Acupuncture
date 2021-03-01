@@ -26,7 +26,7 @@ namespace Acupuncture.Areas.Admin.Controllers
         private readonly ICookieSvc _cookieSvc;
         private const string AccessToken = "access_token";
         private const string User_Id = "user_id";
-       public string[] cookiesToDelete = {"twoFactorToken","memberId" ,"rememberDevice","user_id","access_token"};
+       public string[] cookiesToDelete = {"twoFactorToken","memberId" ,"rememberDevice","user_id","access_token", "username" };
         public AccountController(IOptions<AppSettings> appSettings,ApplicationDbContext db,
             IAuthenticateSvc authenticateSvc,ICookieSvc cookieSvc,IServiceProvider provider,IOptions<DataProtectionKeys> dataProtectionKey)
         {

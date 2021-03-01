@@ -24,7 +24,7 @@ namespace Acupuncture.CommonFunction.ActivityFunction
                     await _db.activities.AddAsync(activityModel);
                     await _db.SaveChangesAsync();
                     await dbTransaction.CommitAsync();
-               
+                    
                 
             }
             catch (Exception ex)

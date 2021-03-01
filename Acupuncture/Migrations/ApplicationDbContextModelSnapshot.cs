@@ -202,6 +202,81 @@ namespace Acupuncture.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Acupuncture.Model.CountryModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Flag")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneCode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("States")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TwoDigitCode")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("countries");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.Course", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CourseName")
+                        .HasColumnType("text");
+
+                    b.HasKey("CourseId");
+
+                    b.ToTable("courses");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.Student", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("StudentId");
+
+                    b.ToTable("students");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.StudentCourse", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("enrollment")
+                        .HasColumnType("text");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("studentCourses");
+                });
+
             modelBuilder.Entity("Acupuncture.Model.Token", b =>
                 {
                     b.Property<int>("Id")
@@ -391,6 +466,21 @@ namespace Acupuncture.Migrations
                     b.HasOne("Acupuncture.Model.ApplicationUser", "User")
                         .WithMany("UserAddresses")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.StudentCourse", b =>
+                {
+                    b.HasOne("Acupuncture.Model.Course", "course")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Acupuncture.Model.Student", "student")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Acupuncture.Model.Token", b =>

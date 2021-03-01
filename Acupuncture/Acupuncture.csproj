@@ -41,6 +41,11 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +53,7 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <Content Remove="wwwroot\image\logo.png" />
+    <Content Remove="Areas\Admin\Views\Profile\Activity.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +78,18 @@
     <Folder Include="CommonFunction\AuthFunction\" />
     <Folder Include="CommonFunction\CookieFunction\" />
     <Folder Include="CommonFunction\ActivityFunction\" />
+    <Folder Include="CommonFunction\UserSvc\" />
+    <Folder Include="wwwroot\lib\customer\js\account\" />
+    <Folder Include="CommonFunction\CountryFunction\" />
+    <Folder Include="Controllers\Api\" />
+    <Folder Include="Controllers\Api\v1\" />
+    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="wwwroot\uploads\user\" />
+    <Folder Include="wwwroot\uploads\user\profile\" />
+    <Folder Include="wwwroot\uploads\user\profile\default\" />
+    <Folder Include="CommonFunction\WritebleAppSettingFunction\" />
+    <Folder Include="CommonFunction\Extensions\" />
+    <Folder Include="CommonFunction\AttributeFuction\" />
   </ItemGroup>
   <ItemGroup>
 
@@ -103,6 +121,9 @@
     <None Include="ClientApp\src\environments\environment.prod.ts" />
     <None Include="ClientApp\src\environments\environment.ts" />
     <None Include="wwwroot\image\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CommonFunction\AuthFunction\UserSvc\UserSvc.cs" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
