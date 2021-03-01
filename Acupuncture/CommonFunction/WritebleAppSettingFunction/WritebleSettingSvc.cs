@@ -12,9 +12,10 @@ namespace Acupuncture.CommonFunction.WritebleAppSettingFunction
     {
         private readonly string _section;
         private readonly string _file;
-        private readonly OptionsMonitor<T> _options;
+        //This is notification when T instance changes
+        private readonly IOptionsMonitor<T> _options;
         private readonly IWebHostEnvironment _en;
-        public WritebleSettingSvc(IWebHostEnvironment en,OptionsMonitor<T> optons,
+        public WritebleSettingSvc(IWebHostEnvironment en,IOptionsMonitor<T> optons,
             string section,string file)
         {
             _options = optons;
@@ -36,12 +37,13 @@ namespace Acupuncture.CommonFunction.WritebleAppSettingFunction
                 var jObject = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(physicalPath));
                 var sectionObject = jObject.TryGetValue(_section, out JToken section) ?
                     JsonConvert.DeserializeObject<T>(section.ToString()) : (Value ?? new T());
-
+                //This is delegate used to assign value method in controller
                 applyChange(sectionObject);
 
                 jObject[_section] = JObject.Parse(JsonConvert.SerializeObject(sectionObject));
                 File.WriteAllText(physicalPath, JsonConvert.SerializeObject(jObject, Formatting.Indented));
                 resultError = false;
+               
             }
             catch (Exception ex)
             {
