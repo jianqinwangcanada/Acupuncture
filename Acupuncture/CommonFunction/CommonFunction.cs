@@ -39,17 +39,17 @@ namespace Acupuncture.CommonFunction
                     Email = _adminUserOptions.Email,
                     UserName = _adminUserOptions.Username,
                     EmailConfirmed = true,
-                    ProfilePic = "",
+                    ProfilePic = "/uploads/user/profile/default/profile.jpeg",
                     PhoneNumber = "1234567890",
                     PhoneNumberConfirmed = true,
                     Firstname = _adminUserOptions.Firstname,
                     Lastname = _adminUserOptions.Lastname,
                     UserRole = "Administrator",
-                    IsActive = true,
+                    IsActive = true,                    
                     UserAddresses = new List<Address>
                 {
-                    new Address{Country=_adminUserOptions.Country,Type="shipping"},
-                    new Address{Country=_adminUserOptions.Country,Type="billing"}
+                    new Address{Country=_adminUserOptions.Country,Type="Shipping"},
+                    new Address{Country=_adminUserOptions.Country,Type="Billing"}
                 }
 
                 
@@ -87,7 +87,7 @@ namespace Acupuncture.CommonFunction
                     Email = _appUserOptions.Email,
                     UserName = _appUserOptions.Username,
                     EmailConfirmed = true,
-                    ProfilePic = "",
+                    ProfilePic = "/uploads/user/profile/default/profile.jpeg",
                     PhoneNumber = "1234567890",
                     PhoneNumberConfirmed = true,
                     Firstname = _appUserOptions.Firstname,
