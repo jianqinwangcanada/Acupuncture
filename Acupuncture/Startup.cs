@@ -5,6 +5,7 @@ using Acupuncture.CommonFunction.ActivityFunction;
 using Acupuncture.CommonFunction.AuthFunction;
 using Acupuncture.CommonFunction.CookieFunction;
 using Acupuncture.CommonFunction.CountryFunction;
+using Acupuncture.CommonFunction.Extensions;
 using Acupuncture.CommonFunction.UserSvc;
 using Acupuncture.Data;
 using Acupuncture.Model;
@@ -42,12 +43,20 @@ namespace Acupuncture
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("Acupuncture")));
             services.AddDbContext<DataProtectionContext>(options=>
             options.UseMySQL(Configuration.GetConnectionString("DataProtectionKeysContext"),x=>x.MigrationsAssembly("Acupuncture")));
+
             //=========================Register CommonManagFunction=======================
             services.AddTransient<ICommonFunction, ComFunction>();
-            //----------------Populate the the the default users from setting======
+
+            //----------------------------------------------------------------------
+            //                  Populate the the the default users from setting-
+            //----------------------------------------------------------------------
             services.Configure<AdminUserOptions>(Configuration.GetSection("AdminUserOptions"));
             services.Configure<AppUserOptions>(Configuration.GetSection("AppUserOptions"));
-            //===========================Default Identity=============================
+
+            //----------------------------------------------------------------------
+            //                        Default Identity
+            //----------------------------------------------------------------------
+           
             var identityOptionsConfiguration = Configuration.GetSection("IdentityDefaultOptions");
             services.Configure<IdentityDefaultOptions>(identityOptionsConfiguration);
             var identityDefaultOptions = identityOptionsConfiguration.Get<IdentityDefaultOptions>();
@@ -121,16 +130,26 @@ namespace Acupuncture
 
             //+++++++++++++++++++++++++++++++Activity Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<IActivitySvc, ActivitySvc>();
-
-            //+++++++++++++++++++++++++++++++Add Auth Service++++++++++++++++++++++++++++++++++++++++
+            //---------------------------------------------------------------------------------
+            //                  Add Auth Service
+            //----------------------------------------------------------------------------------
             services.AddTransient<IAuthenticateSvc, AuthenticateSvc>();
+
+            //---------------------------------------------------------------------------------
+            //                  Add Writeble Appsetting Service
+            //----------------------------------------------------------------------------------
+             var writebleSettingConfigSection= Configuration.GetSection("SiteWideSettings");
+            services.Configure<SiteWideSettings>(writebleSettingConfigSection);
+            services.ConfigWritableSetting<SiteWideSettings>(writebleSettingConfigSection, "appsettings.json");
+
+
 
             //-------------------------------Add cookie fucntion service ---------------------
             services.AddHttpContextAccessor();
             services.AddTransient<CookieOptions>();
             services.AddTransient<ICookieSvc, CookieSvc>();
 
-            //++++++++++++++++Authentication Service-----------------------------------------------------
+            //-------------------------------------------------------------------------------
             //                   Authentication Service
             //------------------------------------------------------------------------------------
             services.AddAuthentication("Administrator").AddScheme<AdminAuthenticationOptions, AdminAuthenticationHandler>("Admin", null);

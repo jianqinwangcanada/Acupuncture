@@ -103,8 +103,9 @@
                           url: "/api/v1/Profile/ChangePassword/",
                           data: JSON.stringify(ResetPasswordViewModel),
                           contentType: "application/json",
-                          headers: {
-                              'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+                      headers: {
+                          'Accept': 'multipart/form-data'
+                              //'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
                           },
                           success: function (result) {
                               $('#resetPasswordForm')[0].reset();
