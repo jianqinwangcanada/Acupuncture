@@ -470,6 +470,7 @@ namespace Acupuncture.CommonFunction.UserSvc
                     newAddress.State = state;
                     newAddress.PostalCode = postalcode;
                     newAddress.Unit = unit;
+                    newAddress.Type = type;
                     _db.Entry(newAddress).State = EntityState.Added;
                 }
 
