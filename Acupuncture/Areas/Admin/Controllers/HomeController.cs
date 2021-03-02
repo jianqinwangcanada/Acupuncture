@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
+using Acupuncture.Data;
+using Serilog;
+using Microsoft.EntityFrameworkCore;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Acupuncture.Areas.Admin.Controllers
@@ -22,21 +25,26 @@ namespace Acupuncture.Areas.Admin.Controllers
         private readonly DataProtectionKeys _dataProtectionKeys;
         private readonly ICookieSvc _cookieSvc;
         private static AdminBaseViewModel _adminBaseViewModel;
-        //The following used for Userservice
+        private readonly DashBoardModel _dashBoard;
+        private readonly ApplicationDbContext _db;
         private readonly IUserSvc _userSvc;
         public HomeController(IServiceProvider provider, IOptions<AppSettings> appSettings,
-            IOptions<DataProtectionKeys> dataProtectionKeys, ICookieSvc cookieSvc, IUserSvc userSvc)
+            IOptions<DataProtectionKeys> dataProtectionKeys, ICookieSvc cookieSvc, IUserSvc userSvc,
+            ApplicationDbContext db)
         {
             _provider = provider;
             _appSettings = appSettings.Value;
             _dataProtectionKeys = dataProtectionKeys.Value;
             _cookieSvc = cookieSvc;
-            //_userSvc = new UserSvc(provider, activitySvc, cookieSvc, db, dataProtectionKeys, ev,userManager);
             _userSvc = userSvc;
+            _db = db;
+            _dashBoard = new DashBoardModel();
+
         }
 
         public async Task<IActionResult> Index()
         {
+            await PopulateDashBoard();
             await SetBaseViewModel();
             return View("index",_adminBaseViewModel);
         }
@@ -53,7 +61,7 @@ namespace Acupuncture.Areas.Admin.Controllers
             {
                 Profile = userProfile,
                 AddUser = null,
-                Dashboard = null,
+                Dashboard = _dashBoard,
                 AppSetting = null,
                 SendGridOption = null,
                 SmtpOption = null,
@@ -62,6 +70,34 @@ namespace Acupuncture.Areas.Admin.Controllers
 
             };
 
+        }
+        private async Task PopulateDashBoard()
+        {
+            try
+            {
+                await using var dbContextTransaction = _db.Database.BeginTransaction();
+
+                try
+                {
+                    _dashBoard.TotalUsers = await _db.appUsers.CountAsync();
+                    _dashBoard.NewUsers = await _db.appUsers.Where(x => x.AccountCreatedOn == DateTime.Today).CountAsync();
+                    _dashBoard.PendingPosts = 30;
+                    _dashBoard.TotalPosts = 60;
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while Get Total Users in Home Controller Profile{Error} {StackTrace} {InnerException} {Source}",
+                                   ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+                    dbContextTransaction.Rollback();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error Db transantion  in Home Controller Profile{Error} {StackTrace} {InnerException} {Source}",
+                                   ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
         }
     }
 }

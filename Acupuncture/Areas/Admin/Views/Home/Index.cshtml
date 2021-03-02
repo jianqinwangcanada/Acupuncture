@@ -1,10 +1,103 @@
 ﻿@{
-    ViewData["Title"] = "Acupuncuture";
+    ViewData["Title"] = "Acupuncuture Home";
 }
+@model Model.AdminBaseViewModel
 <!-- Begin Page Content -->
 
 <div class="container-fluid">
+    <!----------------------------------------------------------------------------------------->
+    <!-- DashBoard Home Page -->
+    
+    <!----------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col">
+            <!-- Content Row -->
+            <div class="row">
+                <!-- Schedule Task Processing -->
+                <div class="col">
+                    <div class="card border-left-primary shadow h-80 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total Users</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Dashboard.TotalUsers</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <!-- Schedule Task Count -->
+            
+                <div class="col">
+                    <div class="card border-left-warning shadow h-80 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">New Users</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Dashboard.NewUsers</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Schedule Task Stuck -->
+            <div class="row">
+                <div class="col">
+                    <div class="card border-left-success shadow h-80 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total Posts</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Dashboard.TotalPosts</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-blog fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            <!-- Schedule Task Failed -->
+            
+                <div class="col">
+                    <div class="card border-left-secondary shadow h-80 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Pending Posts</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Dashboard.PendingPosts</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+    <!----------------------------------------------------------------------------------------->
     <!-- DataTales Example -->
+    <!-- DataTales Example -->
+    <!----------------------------------------------------------------------------------------->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
