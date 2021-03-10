@@ -3,6 +3,7 @@ using System.Text;
 using Acupuncture.CommonFunction;
 using Acupuncture.CommonFunction.ActivityFunction;
 using Acupuncture.CommonFunction.AuthFunction;
+using Acupuncture.CommonFunction.BackEndFunction;
 using Acupuncture.CommonFunction.CookieFunction;
 using Acupuncture.CommonFunction.CountryFunction;
 using Acupuncture.CommonFunction.Extensions;
@@ -130,21 +131,29 @@ namespace Acupuncture
 
             //+++++++++++++++++++++++++++++++Activity Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<IActivitySvc, ActivitySvc>();
+
             //---------------------------------------------------------------------------------
             //                  Add Auth Service
             //----------------------------------------------------------------------------------
             services.AddTransient<IAuthenticateSvc, AuthenticateSvc>();
 
             //---------------------------------------------------------------------------------
+            //                  Add Admin   Service
+            //----------------------------------------------------------------------------------
+            services.AddTransient<IAdminSvc, AdminSvc>();
+
+            //---------------------------------------------------------------------------------
             //                  Add Writeble Appsetting Service
             //----------------------------------------------------------------------------------
              var writebleSettingConfigSection= Configuration.GetSection("SiteWideSettings");
-            services.Configure<SiteWideSettings>(writebleSettingConfigSection);
+           // services.Configure<SiteWideSettings>(writebleSettingConfigSection);
             services.ConfigWritableSetting<SiteWideSettings>(writebleSettingConfigSection, "appsettings.json");
 
 
 
-            //-------------------------------Add cookie fucntion service ---------------------
+            //------------------------------------------------------------ ---------------------
+            //                                  Add cookie fucntion service 
+            //------------------------------------------------------------------ ---------------------
             services.AddHttpContextAccessor();
             services.AddTransient<CookieOptions>();
             services.AddTransient<ICookieSvc, CookieSvc>();

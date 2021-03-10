@@ -7,6 +7,18 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/lib/customer/css/admin/user.min.css",
+    "inputFiles": [
+      "wwwroot/lib/customer/css/admin/user.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/customer/js/admin/user.min.js",
+    "inputFiles": [
+      "wwwroot/lib/customer/js/admin/user.js"
+    ]
+  },
+  {
 
     "outputFileName": "wwwroot/lib/customer/css/admin/login.min.css",
     "inputFiles": [
