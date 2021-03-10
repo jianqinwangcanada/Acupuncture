@@ -54,6 +54,7 @@
     <None Remove="$(SpaRoot)**" />
     <Content Remove="wwwroot\image\logo.png" />
     <Content Remove="Areas\Admin\Views\Profile\Activity.json" />
+    <Content Remove="Areas\Admin\Views\Shared\_EditUserLayout.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +91,8 @@
     <Folder Include="CommonFunction\WritebleAppSettingFunction\" />
     <Folder Include="CommonFunction\Extensions\" />
     <Folder Include="CommonFunction\AttributeFuction\" />
+    <Folder Include="wwwroot\lib\customer\js\common\" />
+    <Folder Include="CommonFunction\BackEndFunction\" />
   </ItemGroup>
   <ItemGroup>
 

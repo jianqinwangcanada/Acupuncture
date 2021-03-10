@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Acupuncture</title>
+    <meta name="keywords" content="Acupuncture, Traditional Chinese Medicine,Windsor Ontario, Canada,Famous Doctor">
+    <link href="~/favicon.ico" rel="icon" />
+    <meta name="author" content="Jianqin Wang" />
+    @await Html.PartialAsync("_HeaderStylesPartial")
+    @RenderSection("Styles", required: false)
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        @await Html.PartialAsync("_SideBarLayout")
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                @await Html.PartialAsync("_TopBarLayout")
+                @RenderBody()
+
+            </div>
+            @await Html.PartialAsync("_FooterLayout")
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_ScrollAndModal")
+    @await Html.PartialAsync("_ScriptsPartial")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
