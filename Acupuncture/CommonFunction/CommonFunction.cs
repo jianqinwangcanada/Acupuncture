@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Acupuncture.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
 
@@ -14,20 +15,20 @@ namespace Acupuncture.CommonFunction
         private readonly AdminUserOptions _adminUserOptions;
         private readonly AppUserOptions _appUserOptions;
         private readonly UserManager<ApplicationUser> _UserManager;
-        
-       // private readonly IHostingEnvironment _hostEnv;
+        private readonly IWebHostEnvironment _env;
+        // private readonly IHostingEnvironment _hostEnv;
 
 
         //dependency injection to pupulate the object
-        
+
         public ComFunction(IOptions<AdminUserOptions> adminOptions,
             IOptions<AppUserOptions >appOptions,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, IWebHostEnvironment env)
         {
             _adminUserOptions = adminOptions.Value;
             _appUserOptions = appOptions.Value;
             _UserManager = userManager;
-           // _hostEnv = env;
+           _env = env;
         }
         public async Task CreateAdminUser()
         {
@@ -87,7 +88,7 @@ namespace Acupuncture.CommonFunction
                     Email = _appUserOptions.Email,
                     UserName = _appUserOptions.Username,
                     EmailConfirmed = true,
-                    ProfilePic = "/uploads/user/profile/default/profile.jpeg",
+                    ProfilePic = await GetDefaultProfilePic(),
                     PhoneNumber = "1234567890",
                     PhoneNumberConfirmed = true,
                     Firstname = _appUserOptions.Firstname,
@@ -121,6 +122,35 @@ namespace Acupuncture.CommonFunction
                 Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
             }
+        }
+        private async Task<string> GetDefaultProfilePic()
+        {
+            try
+            {
+                // Default Profile pic path
+                // Create the Profile Image Path
+                var profPicPath = _env.WebRootPath + $"{Path.DirectorySeparatorChar}uploads{Path.DirectorySeparatorChar}user{Path.DirectorySeparatorChar}profile{Path.DirectorySeparatorChar}";
+                var defaultPicPath = _env.WebRootPath + $"{Path.DirectorySeparatorChar}uploads{Path.DirectorySeparatorChar}user{Path.DirectorySeparatorChar}profile{Path.DirectorySeparatorChar}default{Path.DirectorySeparatorChar}profile.jpeg";
+                var extension = Path.GetExtension(defaultPicPath);
+                var filename = DateTime.Now.ToString("yymmssfff");
+                var path = Path.Combine(profPicPath, filename) + extension;
+                var dbImagePath = Path.Combine($"{Path.DirectorySeparatorChar}uploads{Path.DirectorySeparatorChar}user{Path.DirectorySeparatorChar}profile{Path.DirectorySeparatorChar}", filename) + extension;
+
+                await using (Stream source = new FileStream(defaultPicPath, FileMode.Open))
+                {
+                    await using Stream destination = new FileStream(path, FileMode.Create);
+                    await source.CopyToAsync(destination);
+                }
+
+                return dbImagePath;
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("{Error}", ex.Message);
+            }
+
+            return string.Empty;
         }
     }
 }

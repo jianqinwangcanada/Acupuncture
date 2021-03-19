@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Acupuncture.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitalCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,12 @@ namespace Acupuncture.Migrations
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    RoleName = table.Column<string>(nullable: true),
+                    RoleIcon = table.Column<string>(nullable: true),
+                    Handle = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,6 +119,19 @@ namespace Acupuncture.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PermissionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PermissionTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "students",
                 columns: table => new
                 {
@@ -145,6 +163,30 @@ namespace Acupuncture.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RolePermissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Read = table.Column<bool>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    Update = table.Column<bool>(nullable: false),
+                    Add = table.Column<bool>(nullable: false),
+                    Type = table.Column<string>(nullable: true),
+                    ApplicationRoleId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RolePermissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RolePermissions_AspNetRoles_ApplicationRoleId",
+                        column: x => x.ApplicationRoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,13 +354,13 @@ namespace Acupuncture.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", null, "Administrator", "ADMINISTRATOR" });
+                columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName", "Handle", "IsActive", "RoleIcon", "RoleName" },
+                values: new object[] { "1", null, "ApplicationRole", "Administrator", "ADMINISTRATOR", "administrator", true, "/uploads/roles/icons/default/role.png", "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2", null, "Customer", "CUSTOMER" });
+                columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName", "Handle", "IsActive", "RoleIcon", "RoleName" },
+                values: new object[] { "2", null, "ApplicationRole", "Customer", "CUSTOMER", "customer", true, "/uploads/roles/icons/default/role.png", "customer" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_addresses_UserId",
@@ -363,6 +405,11 @@ namespace Acupuncture.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_RolePermissions_ApplicationRoleId",
+                table: "RolePermissions",
+                column: "ApplicationRoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_studentCourses_CourseId",
                 table: "studentCourses",
                 column: "CourseId");
@@ -398,6 +445,12 @@ namespace Acupuncture.Migrations
 
             migrationBuilder.DropTable(
                 name: "countries");
+
+            migrationBuilder.DropTable(
+                name: "PermissionTypes");
+
+            migrationBuilder.DropTable(
+                name: "RolePermissions");
 
             migrationBuilder.DropTable(
                 name: "studentCourses");

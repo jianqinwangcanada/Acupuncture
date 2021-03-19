@@ -39,10 +39,28 @@
     </li>
     <!-- Nav Item - Role -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        @*<a class="nav-link" href="charts.html">
             <i class="fas fa-user-shield" style="font-size:16px"></i>
             <span>Roles</span>
+        </a>*@
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-user-edit" style="font-size:16px"></i>
+            <span>Roles</span>
         </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Roles Components:</h6>
+                <a asp-action="Index" asp-area="Admin" asp-controller="UserRole" class="collapse-item">User Roles</a>
+                @*<a class="collapse-item" href="cards.html">User Roles</a>*@
+                <a asp-action="Permissions" asp-area="Admin" asp-controller="UserRole" class="collapse-item">Role Permissios</a>
+            </div>
+        </div>
+
+
+
+
+
     </li>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -54,9 +72,11 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">User Components:</h6>
-                <a asp-action="index" asp-controller="User"     class="collapse-item">Uers</a>
-                <a class="collapse-item" href="cards.html">User Roles</a>
-                <a class="collapse-item" href="cards.html">User Users</a>
+                <a asp-action="index" asp-area="Admin" asp-controller="User" class="collapse-item">Uers</a>
+                @*<a asp-action="Index" asp-area="Admin" asp-controller="UserRole" class="collapse-item">User Roles</a>*@
+                @*<a class="collapse-item" href="cards.html">User Roles</a>*@
+                @*<a class="collapse-item" href="cards.html">User Users</a>*@
+
             </div>
         </div>
     </li>

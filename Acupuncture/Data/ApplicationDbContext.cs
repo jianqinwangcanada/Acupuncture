@@ -14,7 +14,7 @@ namespace Acupuncture.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<IdentityRole>().HasData(
+            builder.Entity<ApplicationRole>().HasData(
                 new { Id = "1", Name = "Administrator", NormalizedName = "ADMINISTRATOR", RoleName = "Administrator", Handle = "administrator", RoleIcon = "/uploads/roles/icons/default/role.png", IsActive = true },
                 new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER", RoleName = "customer", Handle = "customer", RoleIcon = "/uploads/roles/icons/default/role.png", IsActive = true }
             );
@@ -40,5 +40,8 @@ namespace Acupuncture.Data
         public DbSet<Student> students { get; set; }
         public DbSet<Course> courses { get; set; }
         public DbSet<StudentCourse> studentCourses { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<PermissionType> PermissionTypes { get; set; }
     }
 }
