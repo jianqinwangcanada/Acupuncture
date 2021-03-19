@@ -93,6 +93,10 @@
     <Folder Include="CommonFunction\AttributeFuction\" />
     <Folder Include="wwwroot\lib\customer\js\common\" />
     <Folder Include="CommonFunction\BackEndFunction\" />
+    <Folder Include="CommonFunction\RoleSvc\" />
+    <Folder Include="wwwroot\uploads\roles\" />
+    <Folder Include="wwwroot\uploads\roles\icons\" />
+    <Folder Include="wwwroot\uploads\roles\icons\default\" />
   </ItemGroup>
   <ItemGroup>
 

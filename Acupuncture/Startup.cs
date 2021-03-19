@@ -7,6 +7,7 @@ using Acupuncture.CommonFunction.BackEndFunction;
 using Acupuncture.CommonFunction.CookieFunction;
 using Acupuncture.CommonFunction.CountryFunction;
 using Acupuncture.CommonFunction.Extensions;
+using Acupuncture.CommonFunction.RoleSvc;
 using Acupuncture.CommonFunction.UserSvc;
 using Acupuncture.Data;
 using Acupuncture.Model;
@@ -126,6 +127,11 @@ namespace Acupuncture
             //+++++++++++++++++++++++++++++++Country Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<IUserSvc, UserSvc>();
 
+            //---------------------------------------------------------------------------------
+            //                           Role Service
+            //----------------------------------------------------------------------------------
+            services.AddTransient<IRoleSvc, RoleSvc>();
+
             //+++++++++++++++++++++++++++++++Country Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<ICountrySvc, CountrySvc>();
 
@@ -133,12 +139,12 @@ namespace Acupuncture
             services.AddTransient<IActivitySvc, ActivitySvc>();
 
             //---------------------------------------------------------------------------------
-            //                  Add Auth Service
+            //                  Auth Service
             //----------------------------------------------------------------------------------
             services.AddTransient<IAuthenticateSvc, AuthenticateSvc>();
 
             //---------------------------------------------------------------------------------
-            //                  Add Admin   Service
+            //                 Admin   Service
             //----------------------------------------------------------------------------------
             services.AddTransient<IAdminSvc, AdminSvc>();
 

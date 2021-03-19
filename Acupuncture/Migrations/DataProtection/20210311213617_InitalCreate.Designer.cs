@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Acupuncture.Migrations.DataProtection
 {
     [DbContext(typeof(DataProtectionContext))]
-    [Migration("20210226022526_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210311213617_InitalCreate")]
+    partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

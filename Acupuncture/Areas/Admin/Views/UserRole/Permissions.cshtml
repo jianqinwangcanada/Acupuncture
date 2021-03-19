@@ -1,0 +1,201 @@
+﻿@{
+    ViewData["Title"] = "Permissions";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card mt-3 text-center mb-5">
+                <div class="card-header">
+                    <div class="float-left">
+                        <h4>User Roles</h4>
+                    </div>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-primary" onclick="AddPermissionTypeModal()"><i class="fa fa-plus mr-1"></i>Permission Type</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <table class="table" border="1">
+                        <thead>
+                            <tr>
+                                <th class="scope=" col">Id</th>
+                                <th class="scope=" col">Name</th>
+                                <th class="scope=" col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var permission in @Model.PermissionTypes)
+                            {
+                                <tr>
+                                    <td>@permission.Id</td>
+                                    <td>@permission.Type.</td>
+                                    <td>
+                                        <div style="text-align:center">
+                                            <div style="display: inline-block">
+
+
+                                                <button class="btn btn-primary"
+                                                        onclick="EditPermissionType(@permission.Id)" type="button" data-Id="@permission.Id">
+
+                                                    <i class="fa fa-pen-square mr-2"></i>Edit
+
+                                                </button>
+
+                                            </div>
+                                           
+                                            <div style="display: inline-block">
+                                                @using (Html.BeginForm("DeletePermissionType", "UserRole", FormMethod.Post))
+                                                {
+
+                                                    <input type="hidden" name="permissionId" value="@permission.Id" />
+
+                                                    <button class="btn btn-danger"
+                                                            onclick="return confirm('Are you sure?')" type="submit" data-Id="@permission.Id">
+
+                                                        <i class="fa fa-trash mr-2"></i>Delete
+
+                                                    </button>
+                                                }
+                                                </div>
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal Add PermissionType-->
+    @using (Html.BeginForm("AddPermissionType", "UserRole", FormMethod.Post))
+
+    {
+        <div class="modal fade" id="PermissionTypeModal" role="dialog" aria-labelledby="PermissionTypeModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="PermissionTypeModalLabel">
+                            <i class="fa fa-clipboard-check"></i>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <span hidden id="RoleTypeId"></span>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-pen-square"></i>
+                                        </span>
+                                    </div>
+                                    
+                                    <input type="text" id="PermissionTypeName" name="permissionTypeName" class="form-control"  aria-label="roleName" aria-describedby="roleName" required>
+                                </div>
+                                <span class="text-danger" id="PermissionTypeNameError"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <div class="btn-group w-100" role="group">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+                            <button type="submit" class="btn btn-primary">ADD</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    @using (Html.BeginForm("EditPermissionType", "UserRole", FormMethod.Post))
+
+    {
+        <div class="modal fade" id="EditPermissionTypeModal" role="dialog" aria-labelledby="EditPermissionTypeModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="EditPermissionTypeModalLabel">
+                                <i class="fa fa-clipboard-check"></i>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                        </div>
+                                        <input type="hidden" id="permissionTypeId" name="permissionTypeId" />
+                                        <input type="text" id="EditPermissionId" class="form-control" value="Permission Name" name="PermissionNewType" aria-label="roleName" aria-describedby="roleName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" >Update</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    }
+    </div>
+   
+<script type="text/javascript">
+     function AddPermissionTypeModal() {
+         $("#PermissionTypeModal").modal('show');;
+        console.log("run");
+     };
+    function EditPermissionType(id) {
+        $("#EditPermissionTypeModal").modal('show');
+        console.log(JSON.parse('@Html.Raw(Json.Serialize(Model.PermissionTypes))'));
+        let jsonPermissiontTypes=JSON.parse('@Html.Raw(Json.Serialize(Model.PermissionTypes))')
+        let PermissionTypes = Object.values(jsonPermissiontTypes);
+       // console.log(PermissionTypes[0].id);
+        let typeName = "";
+        jsonPermissiontTypes.forEach(x => {
+            if (x.id == id)
+                typeName = x.type;
+        });
+        $('#EditPermissionId').val(typeName);
+        $('#permissionTypeId').val(id);
+        console.log($('#permissionTypeId').val());
+        
+
+    }
+</script>
+@section Styles
+{
+    <link href="~/lib/tabulator/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="~/lib/tabulator/js/tabulator.min.js"></script>
+    @*<script src="~/lib/customer/js/admin/roles.js"></script>*@
+
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/customer/js/common/image.js"></script>
+    
+  }
