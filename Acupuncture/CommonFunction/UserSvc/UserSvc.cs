@@ -25,7 +25,7 @@ namespace Acupuncture.CommonFunction.UserSvc
         readonly ICookieSvc _cookieSvc;
         readonly ApplicationDbContext _db;
         readonly DataProtectionKeys _dataProtectionKeys;
-        readonly IHostingEnvironment _env;
+        readonly IWebHostEnvironment _env;
         readonly UserManager<ApplicationUser> _userManager;
 
 
@@ -35,7 +35,7 @@ namespace Acupuncture.CommonFunction.UserSvc
         ICookieSvc cookieSvc,
         ApplicationDbContext db,
         IOptions<DataProtectionKeys> dataProtectionKeys,
-        IHostingEnvironment env,
+        IWebHostEnvironment env,
          UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;

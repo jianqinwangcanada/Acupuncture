@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Acupuncture.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210226022509_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210311213523_InitalCreate")]
+    partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,6 +247,51 @@ namespace Acupuncture.Migrations
                     b.ToTable("courses");
                 });
 
+            modelBuilder.Entity("Acupuncture.Model.PermissionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PermissionTypes");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.RolePermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Add")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ApplicationRoleId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Update")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationRoleId");
+
+                    b.ToTable("RolePermissions");
+                });
+
             modelBuilder.Entity("Acupuncture.Model.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -330,6 +375,10 @@ namespace Acupuncture.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(256)")
                         .HasMaxLength(256);
@@ -346,19 +395,7 @@ namespace Acupuncture.Migrations
 
                     b.ToTable("AspNetRoles");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -463,11 +500,59 @@ namespace Acupuncture.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Acupuncture.Model.ApplicationRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<string>("Handle")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("RoleIcon")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("ApplicationRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR",
+                            Handle = "administrator",
+                            IsActive = true,
+                            RoleIcon = "/uploads/roles/icons/default/role.png",
+                            RoleName = "Administrator"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER",
+                            Handle = "customer",
+                            IsActive = true,
+                            RoleIcon = "/uploads/roles/icons/default/role.png",
+                            RoleName = "customer"
+                        });
+                });
+
             modelBuilder.Entity("Acupuncture.Model.Address", b =>
                 {
                     b.HasOne("Acupuncture.Model.ApplicationUser", "User")
                         .WithMany("UserAddresses")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Acupuncture.Model.RolePermission", b =>
+                {
+                    b.HasOne("Acupuncture.Model.ApplicationRole", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("ApplicationRoleId");
                 });
 
             modelBuilder.Entity("Acupuncture.Model.StudentCourse", b =>

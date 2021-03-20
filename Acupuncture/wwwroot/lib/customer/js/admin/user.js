@@ -21,10 +21,8 @@ $(function () {
     /*load the data from api, and initialize the table and insert the table into _adduserLayout*/
     LoadUsers();
     getCountries();
-
     /* INITIALIZING CHOSEN ELEMENTS */
     let genderOptionsValues = '<option value="Select Gender" disabled selected>Select</option>';
-
     $.each(genderValues, function (index, item) {
         genderOptionsValues += '<option value="' + item + '">' + item + '</option>';
     });
@@ -326,6 +324,9 @@ function GetUserByUsername(username) {
             $("#_gender").val(result.gender).trigger("chosen:updated");
             $("#_displayname").val(result.displayname);
             $("#_role").val(result.userRole);
+            console.log("fuck");
+            console.log($("#_role").val());
+            console.log(result.userRole);
             $("#_imgProfile").attr('src', result.profilePic);
 
             result.useAddress.forEach((obj, index) => {
@@ -519,6 +520,7 @@ function confirmDeleteUser() {
 
 /* LOAD MODALS */
 function addNewUser() {
+    GetAllApplicationRoles("#role");
     $("#roleError").text("");
     $("#AddUserModal").modal('show');
     $("#AddUserModal .modal-title").html("Add New User");
@@ -526,6 +528,9 @@ function addNewUser() {
 
 function editUserById(value) {
     let username = $(value).data('username');
+
+    GetAllApplicationRoles("#_role");
+
     GetUserByUsername(username);
     $("#EditUserModal").modal('show');
     $("#EditUserModal .modal-title").html("Edit User");
@@ -787,3 +792,26 @@ function loadCoppyShippingStates(countryValue,type) {
         }
     }
 }
+
+function GetAllApplicationRoles(id) {
+    $.ajax({
+        type: "GET",
+        url: "/api/v1/UserRole/GetRoles/",
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+            $(id).empty();
+            $(id).append('<option  disabled selected>Select Role</option>');
+           
+            result.forEach((obj, index) => {
+                $(id).append('<option value="' + obj.roleName + '">' + obj.roleName + '</option>');
+            });
+           
+            $(id).append('</option>');
+            
+            
+        }
+    }); 
+}
+
+//`<option value="${obj.roleName}"> ${obj.roleName}</option>`

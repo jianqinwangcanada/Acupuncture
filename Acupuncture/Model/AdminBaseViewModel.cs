@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Acupuncture.Model
 {
     public class AdminBaseViewModel
@@ -11,5 +13,6 @@ namespace Acupuncture.Model
         public SmtpOptions SmtpOption { get; set; }
         public ResetPasswordViewModel ResetPassword { get; set; }
         public SiteWideSettings SiteWideSetting { get; set; }
+        public List<PermissionType> PermissionTypes { get; set;}
     }
 }
