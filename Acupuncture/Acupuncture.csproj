@@ -55,6 +55,11 @@
     <Content Remove="wwwroot\image\logo.png" />
     <Content Remove="Areas\Admin\Views\Profile\Activity.json" />
     <Content Remove="Areas\Admin\Views\Shared\_EditUserLayout.json" />
+    <Content Remove="wwwroot\uploads\user\profile\211650257.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\213738155.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214539032.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214928901.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214256627.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +102,7 @@
     <Folder Include="wwwroot\uploads\roles\" />
     <Folder Include="wwwroot\uploads\roles\icons\" />
     <Folder Include="wwwroot\uploads\roles\icons\default\" />
+    <Folder Include="CommonFunction\EmailFunction\" />
   </ItemGroup>
   <ItemGroup>
 
