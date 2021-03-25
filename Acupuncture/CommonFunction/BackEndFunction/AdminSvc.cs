@@ -306,7 +306,8 @@ namespace Acupuncture.CommonFunction.BackEndFunction
                     }
                     // If user found - generate a token code
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var pass = await GeneratePassword(10);
+                    // var pass = await GeneratePassword(10);
+                    var pass = "Myteacher@321";
                     var result = await _userManager.ResetPasswordAsync(user, code, pass);
                     activityModel.UserId = user.Id;
 

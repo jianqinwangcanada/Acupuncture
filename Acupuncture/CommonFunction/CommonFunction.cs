@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Ubiety.Dns.Core;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Acupuncture.CommonFunction
 {
@@ -32,8 +37,7 @@ namespace Acupuncture.CommonFunction
         }
         public async Task CreateAdminUser()
         {
-            Console.WriteLine("----Call the create user method---fuck");
-            try
+           try
             {
                 var adminUser = new ApplicationUser
                 {
@@ -152,5 +156,66 @@ namespace Acupuncture.CommonFunction
 
             return string.Empty;
         }
+
+
+        public async Task SendEmailByGmailAsync(string fromEmail, string fromFullName, string subject, string messageBody, string toEmail, string toFullName, string smtpUser, string smtpPassword, string smtpHost, int smtpPort, bool smtpSSL)
+        {
+            try
+            {
+                var body = messageBody;
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(toEmail, toFullName));
+                message.From = new MailAddress(fromEmail, fromFullName);
+                message.Subject = subject;
+                message.Body = body;
+                message.IsBodyHtml = true;
+
+                using var smtp = new SmtpClient();
+                var credential = new NetworkCredential
+                {
+                    UserName = smtpUser,
+                    Password = smtpPassword
+                };
+                smtp.Credentials = credential;
+                smtp.Host = smtpHost;
+                smtp.Port = smtpPort;
+                smtp.EnableSsl = smtpSSL;
+                await smtp.SendMailAsync(message);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred while sending email {Error} {StackTrace} {InnerException} {Source}",
+                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
+
+        }
+
+        public async Task SendEmailBySendGridAsync(string apiKey, string fromEmail, string fromFullName, string subject, string message, string email)
+        {
+            try
+            {
+                await Execute(apiKey, fromEmail, fromFullName, subject, message, email);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while creating user {Error} {StackTrace} {InnerException} {Source}",
+                    ex.Message, ex.StackTrace, ex.InnerException, ex.Source);
+            }
+        }
+
+        static async Task<SendGrid.Response> Execute(string apiKey, string fromEmail, string fromFullName, string subject, string message, string email)
+        {
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(fromEmail, fromFullName);
+            var to = new EmailAddress(email);
+            var plainTextContent = message;
+            var htmlContent = message;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+            return response;
+        }
+
+
     }
 }
+
