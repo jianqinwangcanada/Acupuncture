@@ -46,6 +46,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="SendGrid" Version="9.22.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +56,11 @@
     <Content Remove="wwwroot\image\logo.png" />
     <Content Remove="Areas\Admin\Views\Profile\Activity.json" />
     <Content Remove="Areas\Admin\Views\Shared\_EditUserLayout.json" />
+    <Content Remove="wwwroot\uploads\user\profile\211650257.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\213738155.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214539032.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214928901.jpeg" />
+    <Content Remove="wwwroot\uploads\user\profile\214256627.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +103,9 @@
     <Folder Include="wwwroot\uploads\roles\" />
     <Folder Include="wwwroot\uploads\roles\icons\" />
     <Folder Include="wwwroot\uploads\roles\icons\default\" />
+    <Folder Include="CommonFunction\EmailFunction\" />
+    <Folder Include="CommonFunction\EmailTemplates\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
   <ItemGroup>
 
