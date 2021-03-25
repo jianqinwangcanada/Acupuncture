@@ -6,6 +6,7 @@ using Acupuncture.CommonFunction.AuthFunction;
 using Acupuncture.CommonFunction.BackEndFunction;
 using Acupuncture.CommonFunction.CookieFunction;
 using Acupuncture.CommonFunction.CountryFunction;
+using Acupuncture.CommonFunction.EmailFunction;
 using Acupuncture.CommonFunction.Extensions;
 using Acupuncture.CommonFunction.RoleSvc;
 using Acupuncture.CommonFunction.UserSvc;
@@ -124,6 +125,14 @@ namespace Acupuncture
                 };
             });
 
+            //+++++++++++++++++++++++++++++++Email Service++++++++++++++++++++++++++++++++++++++++
+            services.Configure<SmtpOptions>(Configuration.GetSection("SmtpOptions"));
+            services.Configure<SendGridOptions>(Configuration.GetSection("SendGridOptions"));
+
+            services.AddTransient<IEmailSvc, EmailSvc>();
+
+            //---------------------------------------------------------------------------------
+
             //+++++++++++++++++++++++++++++++Country Service++++++++++++++++++++++++++++++++++++++++
             services.AddTransient<IUserSvc, UserSvc>();
 
@@ -152,7 +161,11 @@ namespace Acupuncture
             //                  Add Writeble Appsetting Service
             //----------------------------------------------------------------------------------
              var writebleSettingConfigSection= Configuration.GetSection("SiteWideSettings");
-           // services.Configure<SiteWideSettings>(writebleSettingConfigSection);
+            // services.Configure<SiteWideSettings>(writebleSettingConfigSection);
+            var sendGridOptionsSection = Configuration.GetSection("SendGridOptions");
+            var smtpOptionsSection = Configuration.GetSection("SmtpOptions");
+            services.ConfigWritableSetting<SendGridOptions>(sendGridOptionsSection, "appsettings.json");
+            services.ConfigWritableSetting<SmtpOptions>(smtpOptionsSection, "appsettings.json");
             services.ConfigWritableSetting<SiteWideSettings>(writebleSettingConfigSection, "appsettings.json");
 
 

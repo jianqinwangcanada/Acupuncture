@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Acupuncture.CommonFunction.BackEndFunction;
+using Acupuncture.CommonFunction.EmailFunction;
 using Acupuncture.CommonFunction.UserSvc;
 using Acupuncture.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -25,15 +26,15 @@ namespace Acupuncture.Controllers.Api.v1
         private readonly IUserSvc _userSvc;
         private readonly IWebHostEnvironment _env;
         private readonly IAdminSvc _adminSvc;
-        //private readonly IEmailSvc _emailSvc;
+        private readonly IEmailSvc _emailSvc;
 
 
-        public UserController(IUserSvc userSvc, IWebHostEnvironment env, IAdminSvc adminSvc)
+        public UserController(IUserSvc userSvc, IWebHostEnvironment env, IAdminSvc adminSvc,IEmailSvc emailSvc)
         {
             _userSvc = userSvc;
             _env = env;
             _adminSvc = adminSvc;
-            //_emailSvc = emailSvc;
+            _emailSvc = emailSvc;
         }
 
         [HttpGet("[action]")]
@@ -240,18 +241,17 @@ namespace Acupuncture.Controllers.Api.v1
         }
 
         [HttpPost("[action]/{username}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword([FromRoute] string username)
         {
             var result = await _adminSvc.ResetPasswordAsync(username);
             if (result == null) return BadRequest("Failed to Change Password. Please check logs for more details.");
 
-            // Send email with the new password to the user
-            //await _emailSvc.SendEmailAsync(
-            //   result[0],
-            //   "Password has been Reset",
-            //   $"<p>New Password : {result[1]}</p>",
-            //   "ResetPassword.html");
+            //Send email with the new password to the user
+           await _emailSvc.SendEmailAsync(
+              result[0],
+              "Password has been Reset",
+              $"<p>New Password : {result[1]}</p>",
+              "ResetPassword.html");
 
             return Ok("Password Changed Successfully");
 

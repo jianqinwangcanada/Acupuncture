@@ -46,6 +46,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="SendGrid" Version="9.22.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,6 +104,8 @@
     <Folder Include="wwwroot\uploads\roles\icons\" />
     <Folder Include="wwwroot\uploads\roles\icons\default\" />
     <Folder Include="CommonFunction\EmailFunction\" />
+    <Folder Include="CommonFunction\EmailTemplates\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
   <ItemGroup>
 
